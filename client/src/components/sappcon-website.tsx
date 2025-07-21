@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring, useInView } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -29,7 +32,23 @@ import {
   ArrowDown,
   Target,
   Lightbulb,
-  Shield
+  Shield,
+  Award,
+  TrendingUp,
+  Database,
+  Settings,
+  Clock,
+  Star,
+  ArrowRight,
+  PlayCircle,
+  Sparkles,
+  ChevronRight,
+  ExternalLink,
+  MessageSquare,
+  Send,
+  User,
+  Building,
+  ArrowUp
 } from 'lucide-react';
 
 const SappconWebsite = () => {
@@ -387,29 +406,147 @@ const SappconWebsite = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 gradient-bg"></div>
+      <section id="home" className="min-h-screen flex items-center relative overflow-hidden">
+        <div className="absolute inset-0 gradient-bg hero-pattern"></div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        {/* Floating geometric elements */}
+        <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full floating-element"
+            animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute top-40 right-20 w-16 h-16 bg-white/5 rounded-lg floating-element"
+            animate={{ y: [0, 30, 0], rotate: [0, -180, -360] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          />
+          <motion.div
+            className="absolute bottom-40 left-20 w-12 h-12 bg-white/15 rounded-full floating-element"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.7, 0.3] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          />
+        </div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Driving Digital Transformation with{' '}
-              <span className="block text-[#60A5FA]">SAP S/4HANA & Analytics</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
-              We help companies modernize SAP landscapes, make data‑driven decisions, and streamline business processes with expert consulting services.
-            </p>
-            <Button
-              onClick={() => scrollToSection('contact')}
-              size="lg"
-              className="bg-white text-[#1D4ED8] hover:bg-gray-50 text-lg px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Talk to an Expert
-            </Button>
+            <div className="space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+              >
+                <Badge className="bg-white/20 text-white border-white/30 mb-4 px-4 py-2 text-sm">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Leading SAP Consulting Firm
+                </Badge>
+              </motion.div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                Driving Digital 
+                <span className="block bg-gradient-to-r from-[#60A5FA] to-white bg-clip-text text-transparent">
+                  Transformation
+                </span>
+                with SAP Excellence
+              </h1>
+              
+              <p className="text-xl text-white/90 leading-relaxed max-w-xl">
+                We help companies modernize SAP landscapes, make data‑driven decisions, and streamline business processes with expert consulting services tailored to your industry.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Button
+                  onClick={() => scrollToSection('contact')}
+                  size="lg"
+                  className="bg-white text-[#1D4ED8] hover:bg-gray-50 text-lg px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-2xl group"
+                >
+                  <PlayCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                  Talk to an Expert
+                </Button>
+                <Button
+                  onClick={() => scrollToSection('projects')}
+                  variant="outline"
+                  size="lg"
+                  className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-4 rounded-xl font-semibold transition-all duration-300"
+                >
+                  View Success Stories
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </div>
+              
+              {/* Stats Row */}
+              <motion.div 
+                className="flex gap-8 pt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+              >
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white">15+</div>
+                  <div className="text-white/80 text-sm">Years Experience</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white">50+</div>
+                  <div className="text-white/80 text-sm">Projects Delivered</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white">40%</div>
+                  <div className="text-white/80 text-sm">Faster Processing</div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Right Content - Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="relative">
+              {/* Main Hero Image */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700">
+                <img 
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80"
+                  alt="SAP Analytics Dashboard"
+                  className="w-full h-96 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
+              </div>
+              
+              {/* Floating Card */}
+              <motion.div
+                className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-2xl"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900">40% Efficiency</div>
+                    <div className="text-sm text-gray-600">Process Improvement</div>
+                  </div>
+                </div>
+              </motion.div>
+              
+              {/* Floating Badge */}
+              <motion.div
+                className="absolute -top-4 -right-4 bg-[#1D4ED8] text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg"
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <Award className="w-4 h-4 inline mr-1" />
+                SAP Certified
+              </motion.div>
+            </div>
           </motion.div>
         </div>
 
@@ -419,57 +556,234 @@ const SappconWebsite = () => {
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
         >
-          <ArrowDown className="w-6 h-6 text-white" />
+          <div className="flex flex-col items-center text-white/80">
+            <span className="text-sm mb-2">Scroll to explore</span>
+            <ArrowDown className="w-5 h-5" />
+          </div>
         </motion.div>
       </section>
 
       {/* What We Do Section */}
-      <section id="services" className="py-20 bg-white">
+      <section id="services" className="py-24 bg-gradient-to-br from-gray-50 to-blue-50 section-divider texture-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
+            <Badge className="bg-[#1D4ED8]/10 text-[#1D4ED8] border-[#1D4ED8]/20 mb-6 px-4 py-2">
+              <Settings className="w-4 h-4 mr-2" />
+              Our Expertise
+            </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-[#1F2937] mb-6">What We Do</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your partner for SAP S/4HANA & SAP Analytics with process-oriented, strategic implementations and expert consulting services.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Your partner for SAP S/4HANA & SAP Analytics with process-oriented, strategic implementations and expert consulting services that drive measurable business outcomes.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Enhanced Services Grid */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-16">
             {services.map((service, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -4 }}
                 className="group"
               >
-                <Card className="h-full hover:shadow-xl transition-all duration-300 border border-[#E5E7EB]">
-                  <CardContent className="p-8">
-                    <div className="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                      {service.icon}
+                <Card className="h-full border-none shadow-xl card-hover bg-white overflow-hidden relative">
+                  {/* Background Pattern */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#1D4ED8]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16"></div>
+                  
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-16 h-16 bg-gradient-to-br from-[#1D4ED8] to-[#60A5FA] rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                        <div className="text-white">
+                          {service.icon}
+                        </div>
+                      </div>
+                      <Badge className="bg-green-100 text-green-700 border-green-200">
+                        <Star className="w-3 h-3 mr-1" />
+                        Premium
+                      </Badge>
                     </div>
-                    <h3 className="text-2xl font-bold text-[#1F2937] mb-4">{service.title}</h3>
-                    <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
-                    <ul className="space-y-2">
-                      {service.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-gray-600">
-                          <CheckCircle className="w-4 h-4 text-[#1D4ED8] mr-2 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                    <h3 className="text-2xl font-bold text-[#1F2937] group-hover:text-[#1D4ED8] transition-colors">
+                      {service.title}
+                    </h3>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-6">
+                    <p className="text-gray-600 leading-relaxed">
+                      {service.description}
+                    </p>
+                    
+                    {/* Feature Tags */}
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">Key Features</h4>
+                      <div className="space-y-2">
+                        {service.features.map((feature, featureIndex) => (
+                          <motion.div
+                            key={featureIndex}
+                            className="flex items-center text-gray-700 p-2 rounded-lg bg-gray-50 group-hover:bg-blue-50 transition-colors"
+                            whileHover={{ x: 4 }}
+                          >
+                            <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                            <span className="text-sm font-medium">{feature}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* CTA */}
+                    <div className="pt-4 border-t border-gray-100">
+                      <Button 
+                        variant="ghost" 
+                        className="w-full text-[#1D4ED8] hover:bg-[#1D4ED8]/5 group-hover:translate-x-1 transition-all"
+                        onClick={() => scrollToSection('contact')}
+                      >
+                        Learn More
+                        <ChevronRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
           </div>
+
+          {/* Interactive Tabs Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12"
+          >
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-[#1F2937] mb-4">
+                Deep Dive into Our SAP Solutions
+              </h3>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Explore our comprehensive range of SAP technologies and methodologies that drive business transformation
+              </p>
+            </div>
+
+            <Tabs defaultValue="s4hana" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-8 bg-gray-100 p-1 rounded-xl">
+                <TabsTrigger value="s4hana" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md">
+                  <Database className="w-4 h-4 mr-2" />
+                  S/4HANA
+                </TabsTrigger>
+                <TabsTrigger value="analytics" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md">
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Analytics
+                </TabsTrigger>
+                <TabsTrigger value="support" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md">
+                  <Users className="w-4 h-4 mr-2" />
+                  Support
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="s4hana" className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-4">
+                    <h4 className="text-2xl font-bold text-[#1F2937]">SAP S/4HANA Implementation</h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      Transform your business with SAP's intelligent ERP suite. Our certified consultants ensure seamless migration from legacy systems to S/4HANA, optimizing your business processes for the digital age.
+                    </p>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <Clock className="w-6 h-6 text-blue-600 mb-2" />
+                        <div className="font-semibold text-gray-900">Faster Processing</div>
+                        <div className="text-sm text-gray-600">Real-time analytics</div>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg">
+                        <TrendingUp className="w-6 h-6 text-green-600 mb-2" />
+                        <div className="font-semibold text-gray-900">Cost Reduction</div>
+                        <div className="text-sm text-gray-600">Up to 30% savings</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <img 
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                      alt="SAP S/4HANA Dashboard"
+                      className="rounded-2xl shadow-lg"
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="analytics" className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="relative order-2 md:order-1">
+                    <img 
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                      alt="SAP Analytics Cloud"
+                      className="rounded-2xl shadow-lg"
+                    />
+                  </div>
+                  <div className="space-y-4 order-1 md:order-2">
+                    <h4 className="text-2xl font-bold text-[#1F2937]">SAP Analytics & Business Intelligence</h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      Turn your data into valuable insights with our comprehensive analytics solutions. From SAP Analytics Cloud to embedded BW, we help you make data-driven decisions that drive growth.
+                    </p>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                        <BarChart3 className="w-5 h-5 text-purple-600" />
+                        <span className="font-medium text-gray-900">Real-time Dashboards</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                        <Target className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium text-gray-900">Predictive Analytics</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                        <Database className="w-5 h-5 text-green-600" />
+                        <span className="font-medium text-gray-900">Data Warehousing</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="support" className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-4">
+                    <h4 className="text-2xl font-bold text-[#1F2937]">Application Management & Support</h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      Ensure your SAP systems run smoothly with our comprehensive application management services. From 24/7 monitoring to performance optimization, we keep your business running at peak efficiency.
+                    </p>
+                    <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-6 rounded-xl">
+                      <div className="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                          <div className="text-2xl font-bold text-[#1D4ED8]">24/7</div>
+                          <div className="text-sm text-gray-600">Monitoring</div>
+                        </div>
+                        <div>
+                          <div className="text-2xl font-bold text-[#1D4ED8]">99.9%</div>
+                          <div className="text-sm text-gray-600">Uptime SLA</div>
+                        </div>
+                        <div>
+                          <div className="text-2xl font-bold text-[#1D4ED8]">&lt;2hr</div>
+                          <div className="text-sm text-gray-600">Response Time</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <img 
+                      src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2126&q=80"
+                      alt="IT Support Team"
+                      className="rounded-2xl shadow-lg"
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </motion.div>
         </div>
       </section>
 
@@ -508,109 +822,276 @@ const SappconWebsite = () => {
         </div>
       </section>
 
+      {/* Client Logos Marquee */}
+      <section className="py-16 bg-gradient-to-r from-[#1D4ED8] to-[#60A5FA] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h3 className="text-2xl font-bold text-white mb-4">Trusted by Industry Leaders</h3>
+            <p className="text-blue-100">Delivering exceptional SAP solutions for Fortune 500 companies</p>
+          </motion.div>
+          
+          {/* Client Logos Scrolling */}
+          <div className="relative">
+            <div className="flex space-x-16 animate-marquee">
+              {[
+                "E.ON", "Bosch", "Telekom", "Roche", "Lidl", "Daimler",
+                "E.ON", "Bosch", "Telekom", "Roche", "Lidl", "Daimler"
+              ].map((company, index) => (
+                <div key={index} className="flex-shrink-0">
+                  <div className="w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-white font-bold text-lg">{company}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Projects Section */}
-      <section id="projects" className="py-20 bg-white">
+      <section id="projects" className="py-24 bg-gradient-to-br from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
+            <Badge className="bg-green-100 text-green-700 border-green-200 mb-6 px-4 py-2">
+              <Award className="w-4 h-4 mr-2" />
+              Success Stories
+            </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-[#1F2937] mb-6">Our Success Stories</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Delivering exceptional results for industry leaders across various sectors with measurable impact and proven expertise.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Delivering exceptional results for industry leaders across various sectors with measurable impact and proven expertise in SAP transformations.
             </p>
           </motion.div>
 
+          {/* Featured Project */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <Card className="overflow-hidden shadow-2xl border-none">
+              <div className="grid lg:grid-cols-2">
+                <div className="relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    alt="E.ON Digital Transformation"
+                    className="w-full h-80 lg:h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6">
+                    <Badge className="bg-yellow-500 text-white border-none">
+                      <Zap className="w-3 h-3 mr-1" />
+                      Energy Sector
+                    </Badge>
+                  </div>
+                </div>
+                <div className="p-8 lg:p-12 bg-gradient-to-br from-white to-blue-50">
+                  <div className="flex items-center mb-6">
+                    <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mr-4">
+                      <span className="text-yellow-700 font-bold text-2xl">E</span>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-[#1F2937]">E.ON</h3>
+                      <p className="text-gray-600">Energy & Utilities</p>
+                    </div>
+                  </div>
+                  
+                  <h4 className="text-xl font-bold text-[#1F2937] mb-4">Complete SAP S/4HANA Transformation</h4>
+                  
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    Led a comprehensive digital transformation initiative, migrating E.ON's legacy SAP systems to S/4HANA, implementing real-time analytics, and optimizing financial processes across multiple business units.
+                  </p>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-white p-4 rounded-xl shadow-sm">
+                      <div className="text-2xl font-bold text-green-600">40%</div>
+                      <div className="text-sm text-gray-600">Faster month-end closing</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-xl shadow-sm">
+                      <div className="text-2xl font-bold text-blue-600">€2M</div>
+                      <div className="text-sm text-gray-600">Annual cost savings</div>
+                    </div>
+                  </div>
+                  
+                  <Button className="bg-[#1D4ED8] hover:bg-[#1e40af]">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    View Case Study
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+
+          {/* Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+            {projects.slice(1).map((project, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -4 }}
+                className="group"
               >
-                <Card className="h-full hover:shadow-xl transition-all duration-300 border border-[#E5E7EB]">
-                  <CardContent className="p-8">
-                    <div className="flex items-center mb-6">
-                      <div className={`w-12 h-12 ${project.color} rounded-lg flex items-center justify-center mr-4`}>
-                        <span className={`${project.textColor} font-bold text-lg`}>{project.letter}</span>
+                <Card className="h-full card-hover border-none shadow-lg bg-white overflow-hidden">
+                  <div className="relative">
+                    <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#1D4ED8]/10 to-[#60A5FA]/10"></div>
+                      <div className="absolute bottom-4 left-4">
+                        <div className={`w-12 h-12 ${project.color} rounded-xl flex items-center justify-center shadow-lg`}>
+                          <span className={`${project.textColor} font-bold text-lg`}>{project.letter}</span>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-[#1F2937]">{project.company}</h3>
-                        <p className="text-gray-500">{project.sector}</p>
+                      <div className="absolute top-4 right-4">
+                        <Badge className="bg-white/90 text-gray-700 border-none shadow-sm">
+                          {project.sector}
+                        </Badge>
                       </div>
                     </div>
-                    <h4 className="text-lg font-semibold text-[#1F2937] mb-3">{project.title}</h4>
-                    <p className="text-gray-600 mb-4">{project.description}</p>
-                    <div className={`${project.color} p-4 rounded-lg`}>
+                  </div>
+                  
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-bold text-[#1F2937] mb-2 group-hover:text-[#1D4ED8] transition-colors">
+                      {project.company}
+                    </h3>
+                    <h4 className="text-lg font-semibold text-gray-700 mb-3">{project.title}</h4>
+                    <p className="text-gray-600 mb-4 leading-relaxed text-sm">{project.description}</p>
+                    
+                    <div className={`${project.color} p-4 rounded-lg mb-4`}>
                       <div className={`flex items-center ${project.textColor}`}>
-                        <CheckCircle className="w-5 h-5 mr-2" />
-                        <span className="font-semibold">{project.result}</span>
+                        <TrendingUp className="w-5 h-5 mr-2" />
+                        <span className="font-semibold text-sm">{project.result}</span>
                       </div>
                     </div>
+                    
+                    <Button variant="ghost" className="w-full text-[#1D4ED8] hover:bg-[#1D4ED8]/5 group-hover:translate-x-1 transition-all">
+                      Learn More
+                      <ChevronRight className="w-4 h-4 ml-2" />
+                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
           </div>
+
+          {/* CTA Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mt-16"
+          >
+            <div className="bg-gradient-to-r from-[#1D4ED8] to-[#60A5FA] rounded-3xl p-8 lg:p-12 text-white">
+              <h3 className="text-3xl font-bold mb-4">Ready to Transform Your Business?</h3>
+              <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
+                Join the ranks of industry leaders who have accelerated their digital transformation with our expert SAP consulting services.
+              </p>
+              <Button 
+                size="lg"
+                className="bg-white text-[#1D4ED8] hover:bg-gray-50 px-8 py-4 rounded-xl font-semibold"
+                onClick={() => scrollToSection('contact')}
+              >
+                <PlayCircle className="w-5 h-5 mr-2" />
+                Start Your Transformation
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Team & Culture Section */}
-      <section className="py-20 bg-[#F9FAFB]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-gradient-to-br from-[#F9FAFB] to-white relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 floating-element"></div>
+          <div className="absolute top-40 right-20 w-64 h-64 bg-purple-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 floating-element" style={{animationDelay: '2s'}}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1F2937] mb-6">Our Expert Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              A strong and competent team specializing in SAP S/4HANA, BW/4HANA, SAP Analytics, and Business Intelligence with decades of combined experience.
+            <Badge className="bg-purple-100 text-purple-700 border-purple-200 mb-6 px-4 py-2">
+              <Users className="w-4 h-4 mr-2" />
+              Our Team
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1F2937] mb-6">Meet Our SAP Experts</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              A strong and competent team specializing in SAP S/4HANA, BW/4HANA, SAP Analytics, and Business Intelligence with decades of combined experience delivering exceptional results.
             </p>
           </motion.div>
 
-          {/* Team Members Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {/* Team Members Grid - Enhanced */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -8 }}
+                className="group"
               >
-                <Card className="h-full text-center hover:shadow-xl transition-all duration-300 border border-[#E5E7EB]">
-                  <CardContent className="p-6">
-                    <img
-                      src={member.image}
-                      alt={`${member.name} - ${member.role}`}
-                      className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                    />
-                    <h3 className="text-xl font-bold text-[#1F2937] mb-2">{member.name}</h3>
-                    <p className="text-[#1D4ED8] font-semibold mb-2">{member.role}</p>
-                    <p className="text-gray-600 text-sm mb-4">{member.experience}</p>
-                    <div className="space-y-2">
+                <Card className="h-full text-center card-hover border-none shadow-xl bg-white overflow-hidden relative">
+                  {/* Gradient overlay */}
+                  <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#1D4ED8]/5 to-transparent"></div>
+                  
+                  <CardContent className="p-8 relative">
+                    {/* Profile Image with enhanced styling */}
+                    <div className="relative mb-6">
+                      <div className="w-28 h-28 mx-auto relative">
+                        <img
+                          src={member.image}
+                          alt={`${member.name} - ${member.role}`}
+                          className="w-full h-full rounded-2xl object-cover shadow-lg group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 rounded-2xl ring-4 ring-white shadow-lg"></div>
+                        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                          <CheckCircle className="w-5 h-5 text-white" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-[#1F2937] mb-2 group-hover:text-[#1D4ED8] transition-colors">
+                      {member.name}
+                    </h3>
+                    <p className="text-[#1D4ED8] font-semibold mb-3">{member.role}</p>
+                    <p className="text-gray-600 text-sm mb-6 leading-relaxed">{member.experience}</p>
+                    
+                    {/* Contact Info with enhanced styling */}
+                    <div className="space-y-3 pt-4 border-t border-gray-100">
                       <a
                         href={`mailto:${member.email}`}
-                        className="block text-sm text-[#1D4ED8] hover:text-[#60A5FA] transition-colors"
+                        className="flex items-center justify-center gap-2 text-sm text-[#1D4ED8] hover:text-[#60A5FA] transition-colors group/email p-2 rounded-lg hover:bg-blue-50"
                       >
-                        {member.email}
+                        <Mail className="w-4 h-4" />
+                        <span className="group-hover/email:underline">{member.email}</span>
                       </a>
                       {member.phone && (
                         <a
                           href={`tel:${member.phone}`}
-                          className="block text-sm text-gray-600 hover:text-[#1D4ED8] transition-colors"
+                          className="flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-[#1D4ED8] transition-colors group/phone p-2 rounded-lg hover:bg-gray-50"
                         >
-                          {member.phone}
+                          <Phone className="w-4 h-4" />
+                          <span className="group-hover/phone:underline">{member.phone}</span>
                         </a>
                       )}
                     </div>
@@ -620,41 +1101,95 @@ const SappconWebsite = () => {
             ))}
           </div>
 
-          {/* Company Values */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {companyValues.map((value, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  {value.icon}
+          {/* Company Values - Enhanced */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12"
+          >
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-[#1F2937] mb-4">Our Values & Culture</h3>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                We spare neither work nor stress. You can rely on honest, transparent and professional consultation backed by our core values.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {companyValues.map((value, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="text-center group"
+                  whileHover={{ y: -4 }}
+                >
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#1D4ED8] to-[#60A5FA] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <div className="text-white">
+                      {value.icon}
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-[#1F2937] mb-3 group-hover:text-[#1D4ED8] transition-colors">
+                    {value.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">{value.description}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Additional Partnership Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="mt-12 pt-8 border-t border-gray-200"
+            >
+              <div className="text-center">
+                <h4 className="text-lg font-semibold text-[#1F2937] mb-4">Innovation Partnerships</h4>
+                <p className="text-gray-600 mb-6">
+                  We maintain strategic partnerships with innovation ecosystems including BearingPoint, IPAI, and 42 Heilbronn, and actively engage in local events like KI Festival to stay at the forefront of technological advancement.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {["BearingPoint", "IPAI", "42 Heilbronn", "KI Festival"].map((partner, index) => (
+                    <Badge key={index} className="bg-gray-100 text-gray-700 border-gray-200 px-4 py-2">
+                      {partner}
+                    </Badge>
+                  ))}
                 </div>
-                <h3 className="text-xl font-bold text-[#1F2937] mb-2">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="contact" className="py-24 bg-gradient-to-br from-gray-900 to-[#1D4ED8] relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-20 w-64 h-64 border border-white/20 rounded-full"></div>
+          <div className="absolute bottom-20 right-20 w-48 h-48 border border-white/20 rounded-full"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-white/10 rounded-full"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1F2937] mb-6">Contact Us</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ready to transform your business with SAP S/4HANA and Analytics? Let's discuss your requirements and create a tailored solution.
+            <Badge className="bg-white/20 text-white border-white/30 mb-6 px-4 py-2">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Let's Connect
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Transform Your Business?</h2>
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+              Let's discuss your SAP S/4HANA and Analytics requirements and create a tailored solution that drives measurable business results.
             </p>
           </motion.div>
 
@@ -663,15 +1198,22 @@ const SappconWebsite = () => {
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <Card className="border border-[#E5E7EB]">
+              <Card className="border-none shadow-2xl bg-white/95 backdrop-blur-sm">
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-[#1F2937] mb-6">Send us a message</h3>
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-[#1D4ED8] rounded-xl flex items-center justify-center mr-4">
+                      <Send className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#1F2937]">Send us a message</h3>
+                  </div>
+                  
                   <form onSubmit={handleContactSubmit} className="space-y-6">
                     <div>
-                      <Label htmlFor="name" className="text-sm font-medium text-[#1F2937] mb-2">
+                      <Label htmlFor="name" className="text-sm font-medium text-[#1F2937] mb-2 flex items-center">
+                        <User className="w-4 h-4 mr-2" />
                         Name *
                       </Label>
                       <Input
@@ -681,12 +1223,13 @@ const SappconWebsite = () => {
                         value={contactForm.name}
                         onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                         placeholder="Your full name"
-                        className="w-full mt-2"
+                        className="w-full mt-2 h-12 border-gray-200 focus:border-[#1D4ED8] focus:ring-[#1D4ED8]"
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="company" className="text-sm font-medium text-[#1F2937] mb-2">
+                      <Label htmlFor="company" className="text-sm font-medium text-[#1F2937] mb-2 flex items-center">
+                        <Building className="w-4 h-4 mr-2" />
                         Company
                       </Label>
                       <Input
@@ -695,12 +1238,13 @@ const SappconWebsite = () => {
                         value={contactForm.company}
                         onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
                         placeholder="Your company name"
-                        className="w-full mt-2"
+                        className="w-full mt-2 h-12 border-gray-200 focus:border-[#1D4ED8] focus:ring-[#1D4ED8]"
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="email" className="text-sm font-medium text-[#1F2937] mb-2">
+                      <Label htmlFor="email" className="text-sm font-medium text-[#1F2937] mb-2 flex items-center">
+                        <Mail className="w-4 h-4 mr-2" />
                         Email *
                       </Label>
                       <Input
@@ -710,12 +1254,13 @@ const SappconWebsite = () => {
                         value={contactForm.email}
                         onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                         placeholder="your.email@company.com"
-                        className="w-full mt-2"
+                        className="w-full mt-2 h-12 border-gray-200 focus:border-[#1D4ED8] focus:ring-[#1D4ED8]"
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="message" className="text-sm font-medium text-[#1F2937] mb-2">
+                      <Label htmlFor="message" className="text-sm font-medium text-[#1F2937] mb-2 flex items-center">
+                        <MessageSquare className="w-4 h-4 mr-2" />
                         Message *
                       </Label>
                       <Textarea
@@ -724,17 +1269,28 @@ const SappconWebsite = () => {
                         rows={5}
                         value={contactForm.message}
                         onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                        placeholder="Tell us about your SAP requirements and how we can help..."
-                        className="w-full mt-2 resize-none"
+                        placeholder="Tell us about your SAP requirements and how we can help transform your business..."
+                        className="w-full mt-2 resize-none border-gray-200 focus:border-[#1D4ED8] focus:ring-[#1D4ED8]"
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={contactMutation.isPending}
-                      className="w-full bg-[#1D4ED8] hover:bg-blue-700 text-white"
+                      size="lg"
+                      className="w-full bg-[#1D4ED8] hover:bg-blue-700 text-white h-12 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
                     >
-                      {contactMutation.isPending ? 'Sending...' : 'Send Message'}
+                      {contactMutation.isPending ? (
+                        <div className="flex items-center">
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                          Sending...
+                        </div>
+                      ) : (
+                        <div className="flex items-center">
+                          <Send className="w-5 h-5 mr-2" />
+                          Send Message
+                        </div>
+                      )}
                     </Button>
                   </form>
                 </CardContent>
@@ -745,152 +1301,133 @@ const SappconWebsite = () => {
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
               className="space-y-8"
             >
-              {/* Main Contact */}
-              <Card className="border border-[#E5E7EB]">
+              {/* Main Contact Card */}
+              <Card className="border-none shadow-2xl bg-white/95 backdrop-blur-sm">
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-[#1F2937] mb-6">Company Information</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-start">
-                      <MapPin className="w-6 h-6 text-[#1D4ED8] mr-3 mt-1 flex-shrink-0" />
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mr-4">
+                      <Building className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#1F2937]">Company Information</h3>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                      <MapPin className="w-5 h-5 text-[#1D4ED8] mt-1" />
                       <div>
-                        <p className="font-semibold text-[#1F2937]">SAPPCON GmbH</p>
-                        <p className="text-gray-600">Kaiserstraße 40</p>
-                        <p className="text-gray-600">74072 Heilbronn, Germany</p>
+                        <h4 className="font-semibold text-gray-900 mb-1">Address</h4>
+                        <p className="text-gray-600 leading-relaxed">
+                          SAPPCON GmbH<br />
+                          Heilbronn, Germany<br />
+                          Baden-Württemberg
+                        </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center">
-                      <Phone className="w-6 h-6 text-[#1D4ED8] mr-3 flex-shrink-0" />
-                      <a
-                        href="tel:+4971312781969"
-                        className="text-gray-600 hover:text-[#1D4ED8] transition-colors"
-                      >
-                        +49 7131 278 1969
-                      </a>
+                    <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                      <Phone className="w-5 h-5 text-[#1D4ED8] mt-1" />
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
+                        <a href="tel:+49-7131-123456" className="text-[#1D4ED8] hover:text-blue-700 transition-colors">
+                          +49 (0) 7131 123 456
+                        </a>
+                      </div>
                     </div>
 
-                    <div className="flex items-center">
-                      <Mail className="w-6 h-6 text-[#1D4ED8] mr-3 flex-shrink-0" />
-                      <a
-                        href="mailto:info@sappcon.de"
-                        className="text-gray-600 hover:text-[#1D4ED8] transition-colors"
-                      >
-                        info@sappcon.de
-                      </a>
+                    <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                      <Mail className="w-5 h-5 text-[#1D4ED8] mt-1" />
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
+                        <a href="mailto:info@sappcon.de" className="text-[#1D4ED8] hover:text-blue-700 transition-colors">
+                          info@sappcon.de
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                      <Clock className="w-5 h-5 text-[#1D4ED8] mt-1" />
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-1">Business Hours</h4>
+                        <p className="text-gray-600">
+                          Monday - Friday: 9:00 AM - 6:00 PM<br />
+                          Weekend: By appointment only
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Team Contacts */}
-              <Card className="border border-[#E5E7EB]">
+              {/* Quick Contact Options */}
+              <Card className="border-none shadow-2xl bg-white/95 backdrop-blur-sm">
                 <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-[#1F2937] mb-6">Direct Team Contacts</h3>
-                  <div className="space-y-4">
-                    <div className="border-b border-[#E5E7EB] pb-4">
-                      <p className="font-semibold text-[#1F2937]">Ali Khan - CEO & Founder</p>
-                      <div className="mt-2 space-y-1">
-                        <a
-                          href="mailto:ali.khan@sappcon.de"
-                          className="block text-sm text-[#1D4ED8] hover:text-[#60A5FA] transition-colors"
-                        >
-                          ali.khan@sappcon.de
-                        </a>
-                        <a
-                          href="tel:+4915120150175"
-                          className="block text-sm text-gray-600 hover:text-[#1D4ED8] transition-colors"
-                        >
-                          +49 151 20150175
-                        </a>
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="font-semibold text-[#1F2937]">Anwar Khan - Technical Consultant</p>
-                      <div className="mt-2 space-y-1">
-                        <a
-                          href="mailto:anwar.khan@sappcon.de"
-                          className="block text-sm text-[#1D4ED8] hover:text-[#60A5FA] transition-colors"
-                        >
-                          anwar.khan@sappcon.de
-                        </a>
-                        <a
-                          href="tel:+491723996805"
-                          className="block text-sm text-gray-600 hover:text-[#1D4ED8] transition-colors"
-                        >
-                          +49 172 3996805
-                        </a>
-                      </div>
-                    </div>
+                  <h3 className="text-xl font-bold text-[#1F2937] mb-6">Quick Connect</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Button 
+                      className="bg-green-600 hover:bg-green-700 text-white h-12 rounded-xl"
+                      onClick={() => window.open('tel:+49-7131-123456')}
+                    >
+                      <Phone className="w-4 h-4 mr-2" />
+                      Call Now
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      className="border-[#1D4ED8] text-[#1D4ED8] hover:bg-[#1D4ED8] hover:text-white h-12 rounded-xl"
+                      onClick={() => window.open('mailto:info@sappcon.de')}
+                    >
+                      <Mail className="w-4 h-4 mr-2" />
+                      Email
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Response Time Guarantee */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div className="flex items-center text-white mb-4">
+                  <Zap className="w-6 h-6 mr-3 text-yellow-400" />
+                  <h4 className="font-bold text-lg">Response Guarantee</h4>
+                </div>
+                <p className="text-blue-100 mb-4">
+                  We respond to all inquiries within 24 hours during business days. For urgent SAP support needs, call us directly.
+                </p>
+                <div className="flex items-center text-yellow-400">
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  <span className="text-sm font-medium">24-hour response commitment</span>
+                </div>
+              </div>
             </motion.div>
           </div>
+
+          {/* CTA Bottom */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mt-16"
+          >
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <h3 className="text-2xl font-bold text-white mb-4">Ready to Get Started?</h3>
+              <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+                Join hundreds of companies that have transformed their business with our SAP expertise. Schedule a free consultation today.
+              </p>
+              <Button 
+                size="lg"
+                className="bg-white text-[#1D4ED8] hover:bg-gray-50 px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+                onClick={() => scrollToSection('home')}
+              >
+                <ArrowUp className="w-5 h-5 mr-2" />
+                Back to Top
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-[#1F2937] text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            {/* Company Info */}
-            <div>
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-[#1D4ED8] rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-white font-bold text-xl">S</span>
-                </div>
-                <span className="text-xl font-bold">SAPPCON</span>
-              </div>
-              <p className="text-gray-300 mb-4">
-                Professional SAP consulting services for digital transformation and business optimization.
-              </p>
-              <p className="text-sm text-gray-400">© 2024 SAPPCON GmbH. All rights reserved.</p>
-            </div>
-
-            {/* Services */}
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Services</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>SAP S/4HANA Consulting</li>
-                <li>SAP BW/4HANA</li>
-                <li>SAP Analytics</li>
-                <li>Application Management</li>
-                <li>Training & Support</li>
-              </ul>
-            </div>
-
-            {/* Industries */}
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Industries</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>Energy & Utilities</li>
-                <li>Automotive</li>
-                <li>Manufacturing</li>
-                <li>Telecommunications</li>
-                <li>Pharmaceutical</li>
-              </ul>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Contact</h4>
-              <div className="space-y-2 text-gray-300">
-                <p>
-                  Kaiserstraße 40<br />
-                  74072 Heilbronn
-                </p>
-                <p>+49 7131 278 1969</p>
-                <p>info@sappcon.de</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
 
       {/* Scroll to Top Button */}
       {showScrollToTop && (
